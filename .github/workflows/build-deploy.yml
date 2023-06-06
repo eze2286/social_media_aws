@@ -89,5 +89,5 @@ jobs:
             EXCLUDE: "/dist/, /node_modules/, **.env, rebuild_app.sh, watcher.sh"
         - run: |             
             echo "$(whoami)"            
-            cd ~
+            pwd
                        
