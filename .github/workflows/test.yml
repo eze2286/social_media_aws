@@ -1,1 +1,27 @@
+name: Conectar a instancia EC2
 
+on:
+  workflow_dispatch:
+
+jobs:
+  connect:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configurar entorno AWS
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Crear archivo de clave SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.AWS_SECRET_ACCESS_KEY }}" > ~/.ssh/private_key.pem
+          chmod 600 ~/.ssh/private_key.pem
+
+      - name: Conectar a instancia EC2
+        run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/private_key.pem ec2-100-24-6-149.compute-1.amazonaws.com
+      - name: prueba
+        run: pwd
