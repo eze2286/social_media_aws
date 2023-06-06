@@ -80,8 +80,7 @@ jobs:
           run: |
             echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
             ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME}
-            echo "holaaaaaaaa"
-            sudo -su eze2286
+            echo "holaaaaaaaa"            
             cd ~
             cd app/src
             git pull
