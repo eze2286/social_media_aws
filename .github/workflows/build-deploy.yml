@@ -80,7 +80,7 @@ jobs:
           run: |
             echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
             ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME}
-            sudo -su eze2286
+            echo ${{ secrets.PROD_PASSWORD  }} | sudo -S -su eze2286
             cd app/src
             git pull
-            sudo systemctl restart fastapi
+            echo ${{ secrets.PROD_PASSWORD  }} | sudo -S systemctl restart fastapi
