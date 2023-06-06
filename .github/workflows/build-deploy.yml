@@ -82,7 +82,7 @@ jobs:
           env:
             SSH_PRIVATE_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             REMOTE_HOST: ${{ secrets.HOST_DNS }}
-            REMOTE_USER: ${{ secrets.USERNAME }}
+            REMOTE_USER: ${{ secrets.USER_NAME }}
             
         - run: |         
             echo "$(whoami)"            
