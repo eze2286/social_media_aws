@@ -82,7 +82,5 @@ jobs:
             ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME}
             echo "holaaaaaaaa"
             echo "$(who | cut -d ' ' -f1)"            
-            cd ~
-            cd app/src
-            git pull
-            echo ${{ secrets.PROD_PASSWORD  }} | sudo -S systemctl restart fastapi
+            cd ~            
+            git pull            
