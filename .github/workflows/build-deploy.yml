@@ -81,6 +81,6 @@ jobs:
             echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
             ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME}
             echo "holaaaaaaaa"
-            echo "$(who | cut -d ' ' -f1)"            
+            echo "$(whoami)"            
             cd ~            
             git pull            
