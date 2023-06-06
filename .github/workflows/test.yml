@@ -18,7 +18,7 @@ jobs:
       - name: Crear archivo de clave SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.AWS_SECRET_ACCESS_KEY }}" > ~/.ssh/private_key.pem
+          echo "${{ secrets.AWS_PRIVATE_KEY }}" > ~/.ssh/private_key.pem
           chmod 600 ~/.ssh/private_key.pem
 
       - name: Conectar a instancia EC2
