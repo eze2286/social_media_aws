@@ -71,19 +71,23 @@ jobs:
             #     cache-to: type=inline
     CD:
       needs: CI
+      name: Deploy to EC2
       runs-on: ubuntu-latest
-
       steps:
-        - uses: actions/checkout@v2 
-        - name: Deploy in EC2
+        - name: Checkout the files
+          uses: actions/checkout@v3
+
+        - name: Copy files with SSH
+          uses: easingthemes/ssh-deploy@main
           env:
-            PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
-            HOSTNAME : ${{ secrets.HOSTNAME  }}
-            USER_NAME : ${{ secrets.USER_NAME  }}
-            
-          run: |
-            echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-            ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME}             
+            SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY}}
+            ARGS: "-rltgoDzvO --delete"
+            SOURCE: "./"
+            REMOTE_HOST: "ec2-100-24-6-149.compute-1.amazonaws.com"
+            REMOTE_USER: "ubuntu"
+            TARGET: "/home/ubuntu"
+            EXCLUDE: "/dist/, /node_modules/, **.env, rebuild_app.sh, watcher.sh"
+        - run: |             
             echo "$(whoami)"            
             cd ~
                        
