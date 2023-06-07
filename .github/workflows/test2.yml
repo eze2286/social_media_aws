@@ -21,5 +21,5 @@ jobs:
         run: echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/deploy && chmod 600 ~/.ssh/deploy
       - name: Create the known hosts
         run: echo "${{ secrets.KNOWN_HOSTS }}" > ~/.ssh/known_hosts     
-      - name: deploy the book
-        run: ssh -i ~/.ssh/deploy eze2286@159.223.184.80 'cd ~ && pwd'
+      - name: deploy
+        run: ssh -i ~/.ssh/deploy eze2286@159.223.184.80 'cd ~ && cd app/src && git pull && systemctl restart api'
