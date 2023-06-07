@@ -22,4 +22,6 @@ jobs:
       - name: Create the known hosts
         run: echo "${{ secrets.KNOWN_HOSTS }}" > ~/.ssh/known_hosts     
       - name: deploy
-        run: ssh -i ~/.ssh/deploy eze2286@159.223.184.80 'cd ~ && cd app/src && git pull && systemctl restart api'
+        run: | 
+          ssh -i ~/.ssh/deploy eze2286@159.223.184.80 'cd ~ && cd app/src && git pull'
+          echo ${{ secrets.SERVER_KEY }} | sudo -S systemctl restart api
