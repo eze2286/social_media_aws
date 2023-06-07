@@ -71,23 +71,20 @@ jobs:
             #     cache-to: type=inline
     CD:
       needs: CI
-      name: Deploy to EC2
+      name: Deploy to ubuntu
       runs-on: ubuntu-latest
       steps:
         - name: Checkout the files
           uses: actions/checkout@v3
 
-        - name: Copy files with SSH
-          uses: easingthemes/ssh-deploy@main
-          env:
-            SSH_PRIVATE_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-            ARGS: "-rltgoDzvO --delete"
-            SOURCE: "./"
-            REMOTE_HOST: "ec2-100-24-6-149.compute-1.amazonaws.com"
-            REMOTE_USER: "ubuntu"
-            TARGET: "/home/ubuntu"
-            EXCLUDE: "/dist/, /node_modules/, **.env, rebuild_app.sh, watcher.sh"
-        - run: |             
-            echo "$(whoami)"            
-            pwd
+        - name: deploy to ubuntu server
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{secrets.PROD_HOST}}
+            username: ${{secrets.PROD_USERNAME}}
+            password: ${{secrets.PROD_PASSWORD}}
+            script: |
+                cd app/src
+                git pull
+                echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart api
                        
