@@ -25,4 +25,5 @@ jobs:
         run: | 
           ssh -i ~/.ssh/deploy eze2286@159.223.184.80 'cd ~ && cd app/src && git pull'
           cd /etc/systemd/system/
-          echo ${{ secrets.SERVER_KEY }} | sudo -S systemctl restart api.service
+          pwd
+          
