@@ -23,8 +23,8 @@ jobs:
         run: echo "${{ secrets.KNOWN_HOSTS }}" > ~/.ssh/known_hosts     
       - name: deploy
         run: | 
-          ssh -i ~/.ssh/deploy eze2286@159.223.184.80 'cd ~ && cd app/src && git pull && cut -d: -f1 /etc/passwd'
-          cd /etc/systemd/system/
+          ssh -i ~/.ssh/deploy eze2286@159.223.184.80 'cd ~ && cd app/src && git pull && cd /etc/systemd/system/ && ls -l'
+          
           
 
  
