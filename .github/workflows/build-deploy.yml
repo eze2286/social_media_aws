@@ -72,20 +72,22 @@ jobs:
     CD:
       needs: CI
       name: Deploy to ubuntu
+      # The type of runner that the job will run on
       runs-on: ubuntu-latest
-      steps:
-        - name: Checkout the files
-          uses: actions/checkout@v3
 
-        - name: deploy to ubuntu server
-          uses: appleboy/ssh-action@v0.1.9
-          with:
-            host: ${{ secrets.PROD_HOST }}
-            username: ${{ secrets.PROD_USERNAME }}
-            password: ${{ secrets.PROD_PASSWORD }}
-            port: 22
-            script: |
-                cd app/src
-                git pull
-                echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart api
-                       
+    # Steps represent a sequence of tasks that will be executed as part of the job
+      steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+        - uses: actions/checkout@v3
+
+      # Runs a single command using the runners shell
+        - name: Create the .ssh directory
+          run: mkdir ~/.ssh && chmod 700 ~/.ssh
+        - name: Install the deploy key
+          run: echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/deploy && chmod 600 ~/.ssh/deploy
+        - name: Create the known hosts
+          run: echo "${{ secrets.KNOWN_HOSTS }}" > ~/.ssh/known_hosts     
+        - name: deploy
+          run: | 
+            ssh -i ~/.ssh/deploy eze2286@159.223.184.80 'cd ~ && cd app/src && git pull && echo "${{ secrets.SERVER_KEY }}" | sudo -S systemctl restart api.service'
+         
